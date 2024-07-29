@@ -1,9 +1,20 @@
 using Asp.Versioning;
 using Microsoft.OpenApi.Models;
+using Todo;
 using Todo.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var services = builder.Services;
+string ApiUrl = builder.Configuration["ApiUrl"];
+
+
+builder.Services.AddHttpClient( "TodoApiClient",client =>
+{
+    client.BaseAddress = new Uri(ApiUrl);
+});
+
+builder.Services.AddTransient<ITodoApiRepository, TodoApiRepository>();
 
 builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Program).Assembly); });
 
@@ -11,7 +22,6 @@ builder.Services.AddMediatR(cfg => { cfg.RegisterServicesFromAssembly(typeof(Pro
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddHttpContextAccessor();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -19,7 +29,6 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Todos BFF",
         Version = "v1"
     });
-    
 });
 
 builder.Services.AddApiVersioning(options =>
@@ -31,7 +40,10 @@ builder.Services.AddApiVersioning(options =>
     options.GroupNameFormat = "'v'V";
     options.SubstituteApiVersionInUrl = true;
 });
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpoints(typeof(Program).Assembly);
+
 
 var app = builder.Build();
 

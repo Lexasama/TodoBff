@@ -7,5 +7,3 @@ public record TodoResponse(
     string Title,
     bool Completed,
     int Order) : LinkedResponse;
-    
-    

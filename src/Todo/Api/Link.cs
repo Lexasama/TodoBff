@@ -2,7 +2,7 @@
 
 public abstract record LinkedResponse
 {
-    public IEnumerable<Link> Links { get; set; } = [];
+    public List<Link> Links { get; set; } = [];
 }
 
 public class Link

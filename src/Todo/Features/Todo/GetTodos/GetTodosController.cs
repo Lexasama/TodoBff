@@ -43,7 +43,7 @@ public class GetTodosController : ApiController
         return Ok();
     }
 
-    private IEnumerable<Link> CreateLinksForTodo(int id, string fields = "")
+    private List<Link> CreateLinksForTodo(int id, string fields = "")
     {
         var links = new List<Link>
         {
