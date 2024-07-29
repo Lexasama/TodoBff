@@ -1,0 +1,6 @@
+﻿services:
+  todo:
+    image: todo
+    build:
+      context: .
+      dockerfile: src/Todo/Dockerfile
